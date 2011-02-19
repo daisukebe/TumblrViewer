@@ -1,10 +1,35 @@
 var color = 'black'; //#2C4762
+//var color = 'transparent';
 var scrollView = Ti.UI.createScrollableView({backgroundColor: color});
 
 var reblogkey = [];
 var postid = [];
 
 var Load = {
+    reblog : function(id, key){
+	Ti.API.info(id + ':' + key);
+	if(Ti.Network.online == false){
+	    Ti.API.info('network offline');
+	    return;
+	}
+	
+	try{
+	    Ti.API.info('reblogging...');
+	    var url = "http://www.tumblr.com/api/reblog";
+	    var post = Ti.Network.createHTTPClient();
+	    post.open('POST', url);
+	    post.send({
+		email:mail,
+		password:pswd,
+		"post-id":id,//postid[scrollView.currentPage],
+		"reblog-key":key,//reblogkey[scrollView.currentPage]
+	    });
+	}catch(error){
+	    Ti.API.info(error);
+	}
+	Ti.API.info('rebloged...');
+    },
+	
     run : function(start){
 	Ti.API.info('reloading from ' + start);
 	var views = [];
@@ -43,6 +68,11 @@ var Load = {
 			height:'auto'
 		    });
 		    v.html = e["regular-title"] + '<br>' + e["regular-body"];
+		    v.addEventListener('doubletap', function(e){
+			Ti.API.info('doubletaped:' + scrollView.currentPage);
+			Load.reblog(postid[scrollView.currentPage], reblogkey[scrollView.currentPage]);
+			
+		    });
 		    view.add(v);
 		    scrollView.addView(view);
 		}else if(e.type == "link"){
@@ -63,6 +93,11 @@ var Load = {
 			height:'auto'
 		    });
 		    v.html = e["link-text"] + '<br>' + e["link-description"];
+		    v.addEventListener('doubletap', function(e){
+			Ti.API.info('doubletaped:' + scrollView.currentPage);
+			Load.reblog(postid[scrollView.currentPage], reblogkey[scrollView.currentPage]);
+			
+		    });
 		    view.add(v);
 		    scrollView.addView(view);
 		    
@@ -79,11 +114,11 @@ var Load = {
 		    image = Ti.UI.createImageView({
 			image:e["photo-url-500"]
 		    });
-		    v = Ti.UI.createWebView({
-			backgroundColor:'white',
-			height:'auto'
+		    image.addEventListener('doubletap', function(e){
+			Ti.API.info('doubletaped:' + scrollView.currentPage);
+			Load.reblog(postid[scrollView.currentPage], reblogkey[scrollView.currentPage]);
+			
 		    });
-		    v.html = e["photo-caption"];
 		    view.add(image);
 		    //view.add(v);
 		    scrollView.addView(view);
@@ -105,6 +140,10 @@ var Load = {
 			height:'auto'
 		    });
 		    v.html = e["quote-text"] + '<br>' + e["quote-source"];
+		    v.addEventListener('doubletap', function(e){
+			Ti.API.info('doubltaped:' + scrollView.currentPage);
+			Load.reblog(postid[scrollView.currentPage], reblogkey[scrollView.currentPage]);
+		    });
 		    view.add(v);
 		    scrollView.addView(view);
 		}else if(e.type == "conversation"){
@@ -126,6 +165,11 @@ var Load = {
 			height:'auto'
 		    });
 		    v.html = e["conversation-title"] + '<br>' + e["conversation-text"];
+		    v.addEventListener('doubletap', function(e){
+			Ti.API.info('doubletaped:' + scrollView.currentPage);
+			Load.reblog(postid[scrollView.currentPage], reblogkey[scrollView.currentPage]);
+			
+		    });
 		    view.add(v);
 		    scrollView.addView(view);
 		}else if(e.type == "video"){
@@ -139,6 +183,11 @@ var Load = {
 			backgroundColor:'white'
 		    });
 		    v.html = e["video-caption"] + '<br>' + e["video-source"] + '<br>'+ e["video-player"];
+		    v.addEventListener('doubletap', function(e){
+			Ti.API.info('doubletaped:' + scrollView.currentPage);
+			Load.reblog(postid[scrollView.currentPage], reblogkey[scrollView.currentPage]);
+			
+		    });
 		    view.add(v);
 		    scrollView.addView(view);
 

@@ -5,10 +5,15 @@ mainWin = Ti.UI.currentWindow;
 var start = 0;
 
 Load.run(start);
+/*
+scrollView.addEventListener('singletap', function(e){
+    Ti.API.info('singletaped:' + scrollView.currentPage);
+});
 
 scrollView.addEventListener('doubletap', function(e){
     Ti.API.info('doubletaped:' + scrollView.currentPage);
     //Ti.API.info(reblogkey[scrollView.currentPage]);
+
     if(Ti.Network.online == false){
 	Ti.API.info('network offline');
 	return;
@@ -29,14 +34,13 @@ scrollView.addEventListener('doubletap', function(e){
 	Ti.API.info(error);
     }
     Ti.API.info('rebloged...');
-	
-});
 
+});
+*/
 scrollView.addEventListener('scroll', function(e){
     Ti.API.info('current page:' + scrollView.currentPage);
     
     if(scrollView.currentPage > start + 10){
-	Ti.API.info('reload');
 	start += 20;
 	Load.run(start);
     }
