@@ -1,0 +1,2 @@
+var mail = '';
+var pswd = '';
