@@ -17,9 +17,12 @@ var Load = {
 	    Ti.API.info('network offline');
 	    return;
 	}
-	
+
+	var act = Ti.UI.createActivityIndicator();
+	act.setMessage("reblogging...");
 	try{
 	    Ti.API.info('reblogging...');
+	    act.show();
 	    var url = "http://www.tumblr.com/api/reblog";
 	    var post = Ti.Network.createHTTPClient();
 	    post.open('POST', url);
@@ -33,6 +36,7 @@ var Load = {
 	    Ti.API.info(error);
 	}
 	Ti.API.info('rebloged...');
+	act.hide();
     },
 	
     run : function(start){

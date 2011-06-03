@@ -4,7 +4,7 @@ Ti.include('load.js');
 var mail = null, pswd = null;
 var start = 0;
 
-//Ti.App.Properties.removeProperty("ml");
+Ti.App.Properties.removeProperty("ml");
 
 if(!Ti.App.Properties.hasProperty("ml") || !Ti.App.Properties.hasProperty("pw")){
     Ti.API.info("can't find the account");
@@ -40,6 +40,11 @@ if(!Ti.App.Properties.hasProperty("ml") || !Ti.App.Properties.hasProperty("pw"))
 
     var login = Ti.UI.createButton({
 	title: 'Sign in',
+	font:{
+	    fontFamily:'Trebuchet MS',
+	    fontWeight:'bold',
+	    fontStyle:'italic'
+	},
 	color: '#ff0000',
 	height: 40,
 	left: 10, right: 10,
